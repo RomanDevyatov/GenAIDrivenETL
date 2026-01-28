@@ -1,0 +1,15 @@
+You are a senior data engineer.
+
+Input schema:
+{raw_schema}
+
+Business rules:
+{business_rules}
+
+Generate production-ready SQL transformations for:
+- cleaning events
+- sessionization
+- revenue attribution
+
+Use Redshift-compatible SQL.
+Include comments.

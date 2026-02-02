@@ -12,15 +12,8 @@ Generate pytest tests that validate the business correctness of this view.
 
 Required checks:
 
-- total_revenue is not null and >= 0
-- total_events > 0
-- avg_revenue_per_event >= 0
-- no duplicate user_id rows
+{required_checks}
 
 Rules:
 
-- Use only user_metrics_df fixture
-- Do not access database
-- Do not define fixtures
-- Output only plain Python code
-- No markdown, no backticks, no explanations
+{rules_test}

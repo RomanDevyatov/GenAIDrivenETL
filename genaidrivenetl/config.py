@@ -65,4 +65,35 @@ raw_events(
  user_agent text
 )
 """
+
 FIXTURE_NAME = "user_metrics_df"
+
+RULES = """
+- PostgreSQL compatible
+- Use GROUP BY
+- Avoid window functions
+- Include simple comments
+- Handle division by zero safely
+- Output only SQL (no markdown, no backticks)
+"""
+
+AGGREGATES = """
+- total_revenue = sum of revenue for purchase events
+- total_events = count of all events
+- avg_revenue_per_event = total_revenue divided by total_events
+"""
+
+REQUIRED_CHECKS = """
+- total_revenue is not null and >= 0
+- total_events > 0
+- avg_revenue_per_event >= 0
+- no duplicate user_id rows
+"""
+
+RULES_TEST = """
+- Use only user_metrics_df fixture
+- Do not access database
+- Do not define fixtures
+- Output only plain Python code
+- No markdown, no backticks, no explanations
+"""

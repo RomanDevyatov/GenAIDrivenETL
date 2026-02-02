@@ -26,10 +26,12 @@ class ETLOrchestrator:
             raise FileNotFoundError(f"Prompt not found: {path}")
         return path.read_text()
 
-    def generate_sql(self, raw_schema, view_name) -> Path:
+    def generate_sql(self, raw_schema, view_name, rules, aggregates) -> Path:
         prompt = self.load_prompt(TRANSFORMATION_GENERATION_TXT).format(
             raw_schema=raw_schema,
             view_name=view_name,
+            rules=rules,
+            aggregates=aggregates,
         )
         logger.info(f"Sending prompt: {prompt}")
 
@@ -42,9 +44,15 @@ class ETLOrchestrator:
 
         return path
 
-    def generate_tests(self, sql_logic, view_name, fixture_name) -> Path:
+    def generate_tests(
+        self, sql_logic, view_name, fixture_name, required_checks, rules_test
+    ) -> Path:
         prompt = self.load_prompt(TEST_GENERATION_TXT).format(
-            sql_logic=sql_logic, view_name=view_name, fixture_name=fixture_name
+            sql_logic=sql_logic,
+            view_name=view_name,
+            fixture_name=fixture_name,
+            required_checks=required_checks,
+            rules_test=rules_test,
         )
 
         logger.info(f"Sending test prompt: {prompt}")

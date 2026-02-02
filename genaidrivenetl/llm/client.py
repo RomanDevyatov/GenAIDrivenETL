@@ -14,8 +14,7 @@ class LLMClient:
             raise RuntimeError("OPENROUTER_API_KEY is not set")
 
         self.client = OpenAI(
-            api_key=self.api_key,
-            base_url="https://openrouter.ai/api/v1"
+            api_key=self.api_key, base_url="https://openrouter.ai/api/v1"
         )
 
     def generate(self, prompt: str) -> str:
@@ -24,11 +23,13 @@ class LLMClient:
                 response = self.client.chat.completions.create(
                     model=model,
                     messages=[
-                        {"role": "system",
-                         "content": "You are a helpful " +
-                                    "data engineering assistant."},
+                        {
+                            "role": "system",
+                            "content": "You are a helpful "
+                            + "data engineering assistant.",
+                        },
                         {"role": "user", "content": prompt},
-                    ]
+                    ],
                 )
                 return response.choices[0].message.content
             except Exception:

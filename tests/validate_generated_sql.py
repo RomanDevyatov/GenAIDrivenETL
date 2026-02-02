@@ -22,6 +22,7 @@ def validate_syntax():
 
     logger.info("SQL parsed successfully")
 
+
 def validate_execution():
     engine = create_engine(os.getenv("DB_URL"))
 
@@ -35,6 +36,7 @@ def validate_execution():
             logger.info("SQL execution failed:")
             logger.info(e)
             sys.exit(1)
+
 
 if __name__ == "__main__":
     validate_syntax()

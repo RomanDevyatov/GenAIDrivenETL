@@ -1,4 +1,3 @@
-```sql
 CREATE OR REPLACE VIEW user_metrics_view__staging AS
 SELECT
     user_id,
@@ -7,10 +6,10 @@ SELECT
     -- Count of all events
     COUNT(*) AS total_events,
     -- Average revenue per event, handle division by zero
-    CASE
-        WHEN COUNT(*) = 0 THEN 0
-        ELSE SUM(CASE WHEN event_type = 'purchase' THEN revenue ELSE 0 END) * 1.0 / COUNT(*)
+    CASE 
+        WHEN COUNT(*) > 0 THEN 
+            SUM(CASE WHEN event_type = 'purchase' THEN revenue ELSE 0 END) * 1.0 / COUNT(*)
+        ELSE 0.0 
     END AS avg_revenue_per_event
 FROM raw_events
 GROUP BY user_id;
-```

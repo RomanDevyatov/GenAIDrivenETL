@@ -4,96 +4,88 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-logger = logging.getLogger(__name__)
-
-
 load_dotenv()
 
 
-# ========= PROJECT ROOT =========
+class Config:
+    # ========= PATHS =========
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-GENAI_ROOT = PROJECT_ROOT / "genaidrivenetl"
-DATA_DIR = PROJECT_ROOT / "data"
-OUTPUTS_DIR = DATA_DIR / "generated_outputs"
-LOG_DIR = DATA_DIR / "logs"
+    PROJECT_ROOT = Path(__file__).resolve().parents[1]
+    DATA_DIR = PROJECT_ROOT / "data"
+    OUTPUTS_DIR = DATA_DIR / "generated_outputs"
+    LOG_DIR = DATA_DIR / "logs"
 
-for p in [DATA_DIR, OUTPUTS_DIR, LOG_DIR]:
-    p.mkdir(parents=True, exist_ok=True)
+    PROMPTS_DIR = PROJECT_ROOT / "genaidrivenetl" / "prompts"
+    GENERATED_SQL_PATH = OUTPUTS_DIR / "sql" / "etl.sql"
+    GENERATED_TESTS_PATH = PROJECT_ROOT / "tests" / "generated_tests.py"
 
-PROMPTS_DIR = GENAI_ROOT / "prompts"
-GENERATED_SQL_PATH = OUTPUTS_DIR / "sql"
-TESTS_DIR = PROJECT_ROOT / "tests"
-GENERATED_TESTS_PATH = TESTS_DIR / "generated_tests.py"
-TRANSFORMATION_GENERATION_TXT = "transformation_generation.txt"
-TEST_GENERATION_TXT = "test_generation.txt"
+    # ========= LLM =========
 
-# ========= LLM =========
+    OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+    LLM_MODEL = "arcee-ai/trinity-large-preview:free"
+    OPENROUTER_BASE = "https://openrouter.ai/api/v1"
 
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-LLM_MODELS = [
-    "arcee-ai/trinity-large-preview:free",
-]
+    # ========= SQL =========
 
-logger.info(f"PROJECT_ROOT: {PROJECT_ROOT}")
-logger.info(f"GENAI_ROOT: {GENAI_ROOT}")
-logger.info(f"OUTPUTS_DIR: {OUTPUTS_DIR}")
-logger.info(f"PROMPTS_DIR: {PROMPTS_DIR}")
-logger.info(f"DATA_DIR: {DATA_DIR}")
-logger.info(f"GENERATED_SQL_PATH: {GENERATED_SQL_PATH}")
-logger.info(f"GENERATED_TESTS_PATH: {GENERATED_TESTS_PATH}")
-logger.info(f"LLM_MODELS: {LLM_MODELS}")
+    USER_METRICS_VIEW_NAME = os.getenv("VIEW_NAME")
+    USER_METRICS_STAGING_VIEW_NAME = os.getenv("STAGING_VIEW_NAME")
 
-# ========= LOG ==========
+    RAW_SCHEMA = """
+    raw_events(
+        user_id text,
+        event_time timestamp,
+        event_type text,
+        session_id text,
+        revenue numeric,
+        user_agent text
+    )
+    """
 
-LOG_FORMAT = "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
-LOG_FILE = LOG_DIR / "app.log"
-LOGGING_LEVEL = logging.INFO
+    RULES = """
+    - PostgreSQL compatible
+    - Use GROUP BY
+    - Avoid window functions
+    - Include simple comments
+    - Handle division by zero safely
+    - Output only SQL (no markdown, no backticks)
+    """
 
-# ========= SQL ==========
+    AGGREGATES = """
+    - total_revenue = sum of revenue for purchase events
+    - total_events = count of all events
+    - avg_revenue_per_event = total_revenue divided by total_events
+    """
 
-USER_METRICS_VIEW_NAME = os.getenv("VIEW_NAME")
-USER_METRICS_STAGING_VIEW_NAME = os.getenv("STAGING_VIEW_NAME")
+    REQUIRED_CHECKS = """
+    - total_revenue is not null and >= 0
+    - total_events > 0
+    - avg_revenue_per_event >= 0
+    - no duplicate user_id rows
+    """
 
-RAW_SCHEMA = """
-raw_events(
- user_id text,
- event_time timestamp,
- event_type text,
- session_id text,
- revenue numeric,
- user_agent text
-)
-"""
+    RULES_TEST = """
+    - Use only user_metrics_df fixture
+    - Do not access database
+    - Do not define fixtures
+    - Output only plain Python code
+    - No markdown, no backticks, no explanations
+    """
 
-FIXTURE_NAME = "user_metrics_df"
+    FIXTURE_NAME = "user_metrics_df"
 
-RULES = """
-- PostgreSQL compatible
-- Use GROUP BY
-- Avoid window functions
-- Include simple comments
-- Handle division by zero safely
-- Output only SQL (no markdown, no backticks)
-"""
+    # ========= PROMPTS =========
+    VERSION = "v1"
+    SQL_PROMPT_PATH = PROMPTS_DIR / VERSION / "sql_prompt.txt"
+    TEST_PROMPT_PATH = PROMPTS_DIR / VERSION / "test_prompt.txt"
 
-AGGREGATES = """
-- total_revenue = sum of revenue for purchase events
-- total_events = count of all events
-- avg_revenue_per_event = total_revenue divided by total_events
-"""
+    # ========= LOGGING =========
 
-REQUIRED_CHECKS = """
-- total_revenue is not null and >= 0
-- total_events > 0
-- avg_revenue_per_event >= 0
-- no duplicate user_id rows
-"""
+    LOG_FORMAT = "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
+    LOGGING_LEVEL = logging.INFO
+    LOG_FILE = LOG_DIR / "app.log"
 
-RULES_TEST = """
-- Use only user_metrics_df fixture
-- Do not access database
-- Do not define fixtures
-- Output only plain Python code
-- No markdown, no backticks, no explanations
-"""
+    @classmethod
+    def ensure_directories(cls):
+        for p in [cls.DATA_DIR, cls.OUTPUTS_DIR, cls.LOG_DIR]:
+            if not p.exists():
+                p.mkdir(parents=True, exist_ok=True)

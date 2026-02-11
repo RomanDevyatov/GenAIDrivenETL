@@ -207,3 +207,8 @@ marimo/_lsp/
 __marimo__/
 
 data/logs/
+poetry.lock
+tests/generated_tests.py
+
+# macOS
+.DS_Store

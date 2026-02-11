@@ -15,7 +15,7 @@ echo "Running init_db.sh..."
 ./scripts/init_db.sh
 
 # ==============================
-# Run main_pipeline.py
+# Run main.py
 # ==============================
 echo "Running main_pipeline.py..."
 ./scripts/run_main_pipeline.sh

@@ -17,6 +17,6 @@ poetry install --no-root
 # Run main ETL pipeline
 # ==============================
 echo "Running main_pipeline.py..."
-poetry run python genaidrivenetl/run_pipeline.py
+poetry run python genaidrivenetl/main.py
 
 echo "run_pipeline.py finished successfully"

@@ -1,14 +1,15 @@
 import logging
 
-from genaidrivenetl.config import LOG_FILE, LOG_FORMAT, LOGGING_LEVEL
+from genaidrivenetl.config import Config
 
 
-def setup_logging(level=LOGGING_LEVEL):
+def setup_logging(level=Config.LOGGING_LEVEL):
     logging.basicConfig(
         level=level,
-        format=LOG_FORMAT,
+        format=Config.LOG_FORMAT,
         handlers=[
             logging.StreamHandler(),
-            logging.FileHandler(LOG_FILE),
+            logging.FileHandler(Config.LOG_FILE),
         ],
+        force=True,
     )

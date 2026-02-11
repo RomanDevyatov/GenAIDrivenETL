@@ -15,4 +15,3 @@ The view must aggregate per user:
 Rules:
 
 {rules}
-

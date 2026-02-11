@@ -95,8 +95,8 @@ ETL SQL is generated automatically and saved under _data/generated_outputs/sql/e
 
 Views such as _user_metrics_view__staging_ and _user_metrics_view_ are created dynamically.
 
-You can add new metrics editing `aggregates` in the [sql generation prompt](genaidrivenetl/prompts/transformation_generation.txt).
-As well, you can generate new tests by editing `required_checks` in the [test generation prompt](genaidrivenetl/prompts/test_generation.txt).
+You can add new metrics editing `aggregates` in the [sql generation prompt](genaidrivenetl/prompts/transformation_generation.py).
+As well, you can generate new tests by editing `required_checks` in the [test generation prompt](genaidrivenetl/prompts/test_generation.py).
 The project uses Poetry for reproducible environments. Check [config file](genaidrivenetl/config.py).
 
 ---

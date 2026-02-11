@@ -5,12 +5,16 @@ import pandas as pd
 import pytest
 from sqlalchemy import create_engine, text
 
-from genaidrivenetl.config import USER_METRICS_STAGING_VIEW_NAME, USER_METRICS_VIEW_NAME
+from genaidrivenetl.config import (
+    USER_METRICS_STAGING_VIEW_NAME,
+    USER_METRICS_VIEW_NAME,
+    Config,
+)
 
 logger = logging.getLogger(__name__)
 
 
-ETL_SQL_PATH = "data/generated_outputs/sql/etl.sql"
+ETL_SQL_PATH = Config.ETL_SQL_PATH
 
 
 # =========================

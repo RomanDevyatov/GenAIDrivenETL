@@ -19,6 +19,10 @@ class Config:
     GENERATED_SQL_PATH = OUTPUTS_DIR / "sql" / "etl.sql"
     GENERATED_TESTS_PATH = PROJECT_ROOT / "tests" / "generated_tests.py"
 
+    # ========= MLFLOW ======
+
+    MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI")
+
     # ========= LLM =========
 
     OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
@@ -64,11 +68,14 @@ class Config:
     """
 
     RULES_TEST = """
-    - Use only user_metrics_df fixture
-    - Do not access database
-    - Do not define fixtures
-    - Output only plain Python code
-    - No markdown, no backticks, no explanations
+    - Use only the user_metrics_df fixture.
+    - Do not access any database.
+    - Do not define or redefine fixtures.
+    - Output strictly plain Python code.
+    - Never use markdown formatting.
+    - Never use backticks (`).
+    - Do not include explanations, comments, or text outside code.
+    - Do not wrap code in any code blocks.
     """
 
     FIXTURE_NAME = "user_metrics_df"

@@ -7,9 +7,8 @@ SELECT
     COUNT(*) AS total_events,
     -- Average revenue per event, handle division by zero
     CASE 
-        WHEN COUNT(*) > 0 THEN 
-            SUM(CASE WHEN event_type = 'purchase' THEN revenue ELSE 0 END) * 1.0 / COUNT(*)
-        ELSE 0.0 
+        WHEN COUNT(*) = 0 THEN 0
+        ELSE SUM(CASE WHEN event_type = 'purchase' THEN revenue ELSE 0 END) / COUNT(*)
     END AS avg_revenue_per_event
 FROM raw_events
 GROUP BY user_id;

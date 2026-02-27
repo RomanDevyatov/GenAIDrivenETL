@@ -1,7 +1,7 @@
 # LangChain SQL & Test Generator
 
-**lang-chain-sql-and-test-generator** is a LangChain-powered data engineering project that automatically generates SQL transformations and corresponding pytest tests from raw event schemas and business rules.
-The project demonstrates how LLM orchestration can be integrated into a production-style ETL workflow with validation, testing, and code quality enforcement.
+**lang-chain-sql-and-test-generator** is a **LangChain-powered** data engineering project that automatically generates SQL transformations and corresponding pytest tests from raw event schemas and business rules.
+It demonstrates how LLM orchestration can be integrated into a production-style ETL workflow with validation, testing, and code quality enforcement, now with **MLflow experiment** tracking for reproducibility and observability.
 
 ---
 
@@ -13,35 +13,27 @@ SQL Prompt -> LangChain LLM -> Generated SQL (View) -> Test Prompt -> LangChain 
 
 ## Features
 
-- LangChain LCEL-based orchestration pipeline
-
+- `LangChain LCEL`-based orchestration pipeline
 - Automatic SQL generation from raw schema + rules
-
 - Automatic `pytest` test generation
-
-- PostgreSQL integration (staging → final views)
-
+- `PostgreSQL` integration (staging → final views)
 - SQL validation before execution
-
+- LLM-driven orchestration with `LangChain LCEL`
+- `MLflow` tracking for parameters, metrics, and artifacts
 - Rollback on test failure
-
 - PEP8 linting (Black, isort, Flake8)
+- Fully reproducible environment with `Poetry`
 
-- Fully reproducible environment with Poetry
-
+Fully reproducible environment via Poetry
 ---
 
 ## GenAI Usage
 
-- This project demonstrates practical GenAI usage in Data Engineering:
-
 - Schema-driven SQL generation
-
 - Metric aggregation logic generation
-
 - Automated data quality test creation
-
 - LLM-based orchestration via LangChain LCEL
+- Experiment tracking and parameter logging via MLflow
 
 ---
 
@@ -59,12 +51,14 @@ SQL Prompt -> LangChain LLM -> Generated SQL (View) -> Test Prompt -> LangChain 
 
 - Run ML flow
     ```bash 
-  mlflow server \
-  --backend-store-uri sqlite:///mlflow.db \
-  --default-artifact-root ./mlartifacts \
-  --host 127.0.0.1 \
-  --port 5000
+    mlflow server \
+    --backend-store-uri sqlite:///mlflow.db \
+    --default-artifact-root ./mlartifacts \
+    --host 127.0.0.1 \
+    --port 5000
     ``` 
+  
+    __Note__: .gitignore includes mlflow.db and mlruns/ to prevent committing local experiment data.
   
 ### 1) Clone repository
 ```bash
@@ -113,12 +107,12 @@ chmod +x ./scripts/*.sh
 
 ## Generated Artifacts
 
-Generated SQL:
+SQL:
 ```bash
 data/generated_outputs/sql/etl.sql
 ```
 
-Generated tests:
+Tests:
 ```bash
 tests/generated_tests.py
 ```
@@ -132,6 +126,8 @@ Final View:
 ```bash
 user_metrics_view
 ```
+
+All artifacts are logged in MLflow, including parameters, metrics, and generated files.
 
 ---
 
@@ -157,13 +153,12 @@ Optional: Run full lint script:
 
 ## Notes
 
-ETL SQL is generated automatically and saved under _data/generated_outputs/sql/etl.sql_.
-
-Views such as _user_metrics_view__staging_ and _user_metrics_view_ are created dynamically.
-
-You can add new metrics editing `aggregates` in the [sql generation prompt](genaidrivenetl/prompts/v1/sql_prompt.txt).
-As well, you can generate new tests by editing `required_checks` in the [test generation prompt](genaidrivenetl/prompts/v1/test_prompt.txt).
-The project uses Poetry for reproducible environments. Check [config file](genaidrivenetl/config.py).
+- ETL SQL is generated automatically and saved under _data/generated_outputs/sql/etl.sql_.
+- Views such as _user_metrics_view__staging_ and _user_metrics_view_ are created dynamically.
+- Add new metrics in `aggregates` in the [sql generation prompt](genaidrivenetl/prompts/v1/sql_prompt.txt).
+- Add new tests via `required_checks` in the [test generation prompt](genaidrivenetl/prompts/v1/test_prompt.txt).
+- The project uses Poetry for reproducible environments. Check [config file](genaidrivenetl/config.py).
+- Experiment tracking via MLflow ensures reproducibility and auditability.
 
 ---
 

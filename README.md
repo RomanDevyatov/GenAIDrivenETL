@@ -105,6 +105,25 @@ chmod +x ./scripts/*.sh
 
 ---
 
+## MLflow Tracking
+
+MLflow is used to log parameters, generated SQL/tests, and metrics for each run.  
+It ensures reproducibility and observability.
+
+1. **Experiments Overview**  
+Shows all runs with their parameters and status.  
+![mlflow_experiments.png](screenshots/mlflow/img_1.png)
+
+2. **Run Details — Params & Metrics**  
+Each run logs input parameters and test/SQL metrics.  
+![mlflow_run_details.png](screenshots/mlflow/img_2.png)
+
+4. **Artifacts**  
+Generated SQL and tests are stored as MLflow artifacts.  
+![mlflow_artifacts.png](screenshots/mlflow/img_3.png)
+
+---
+
 ## Generated Artifacts
 
 SQL:

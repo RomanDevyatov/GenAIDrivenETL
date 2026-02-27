@@ -5,16 +5,12 @@ import pandas as pd
 import pytest
 from sqlalchemy import create_engine, text
 
-from genaidrivenetl.config import (
-    USER_METRICS_STAGING_VIEW_NAME,
-    USER_METRICS_VIEW_NAME,
-    Config,
-)
+from genaidrivenetl.config import Config
 
 logger = logging.getLogger(__name__)
 
 
-ETL_SQL_PATH = Config.ETL_SQL_PATH
+ETL_SQL_PATH = Config.GENERATED_SQL_PATH
 
 
 # =========================
@@ -42,7 +38,7 @@ def engine():
 def run_etl(engine):
     validate_etl_sql(engine, ETL_SQL_PATH)
     execute_etl(engine, ETL_SQL_PATH)
-    logger.info(f"ETL SQL completed — view {USER_METRICS_VIEW_NAME} created")
+    logger.info(f"ETL SQL completed — view {Config.USER_METRICS_VIEW_NAME} created")
     return engine
 
 
@@ -85,5 +81,6 @@ def validate_etl_sql(engine, etl_sql_path):
 @pytest.fixture(scope="session")
 def user_metrics_df(run_etl):
     return pd.read_sql(
-        f"SELECT * FROM {USER_METRICS_STAGING_VIEW_NAME} ORDER BY user_id", run_etl
+        f"SELECT * FROM {Config.USER_METRICS_STAGING_VIEW_NAME} ORDER BY user_id",
+        run_etl,
     )

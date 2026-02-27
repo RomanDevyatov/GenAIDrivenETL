@@ -68,11 +68,13 @@ class Config:
     """
 
     RULES_TEST = """
-    - Use only user_metrics_df fixture
-    - Do not access database
-    - Do not define fixtures
-    - Output only plain Python code
-    - No markdown, no backticks, no explanations
+    - Use only the user_metrics_df fixture.
+    - Do not access any database.
+    - Do not define or redefine fixtures.
+    - Output only plain Python code.
+    - Do not use markdown formatting.
+    - Do not use backticks.
+    - Do not include explanations or comments.
     """
 
     FIXTURE_NAME = "user_metrics_df"

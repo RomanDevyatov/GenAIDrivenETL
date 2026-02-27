@@ -50,7 +50,10 @@ SQL Prompt -> LangChain LLM -> Generated SQL (View) -> Test Prompt -> LangChain 
 
 - Python 3.11+
 
-- PostgreSQL running locally
+- PostgreSQL running locally:
+    ```bash
+    brew services start postgresql@16
+    ``` 
 
 - Poetry installed
 

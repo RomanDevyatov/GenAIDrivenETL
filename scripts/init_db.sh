@@ -13,8 +13,8 @@ set +a
 # Paths
 # ==============================
 
-INIT_SQL=genaidrivenetl/db/init.sql
-LOAD_SQL=genaidrivenetl/db/load_data.sql
+INIT_SQL=db/init.sql
+LOAD_SQL=db/load_data.sql
 
 echo "Initializing database: $DB_NAME"
 
